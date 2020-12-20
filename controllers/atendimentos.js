@@ -6,6 +6,6 @@ module.exports = app => {
     app.post('/atendimentos', (req, res) => {
         const atendimento = req.body
 
-        Atendimento.add(atendimento)
-        res.send('rota de atendimento POST')})
+        Atendimento.add(atendimento, res)
+    })
 }
