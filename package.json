@@ -1,0 +1,22 @@
+{
+  "name": "alura-node-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gsabreu/alura-node-api.git"
+  },
+  "author": "guilherme abreu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gsabreu/alura-node-api/issues"
+  },
+  "homepage": "https://github.com/gsabreu/alura-node-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
