@@ -2,10 +2,11 @@ class Tables{
     init(connection){
         this.connection = connection
 
-        this.criarAtendimentos()
+        this.createAtendimentos()
+        this.createPets()
     }
 
-    criarAtendimentos(){
+    createAtendimentos(){
         const sql = `CREATE TABLE IF NOT EXISTS atendimentos (id int NOT NULL AUTO_INCREMENT,
             client varchar(50) NOT NULL,
             pet varchar(20),
@@ -23,6 +24,21 @@ class Tables{
                 console.log('Table atendimento was create');
             }
         })
+    }
+
+    createPets(){
+        const query = `CREATE TABLE IF NOT EXISTS pets (id int NOT NULL AUTO_INCREMENT,
+            nome varchar(50),
+            img varchar(200),
+            PRIMARY KEY (id))`
+
+            this.connection.query(query, error =>{
+                if(error){
+                    console.log(error);
+                } else {
+                    console.log('Pet table was created');
+                }
+            })
     }
 }
 
