@@ -1,17 +1,27 @@
 const connection = require('../infra/connection')
+const fileUpload = require('../files/uploadFiles')
 
 class Pet {
     add(pet, res) {
         const query = 'INSERT INTO pets SET ?'
 
-        connection.query(query, pet, error => {
-            if(error) {
-                console.log(error)
-                res.status(400).json(error)
+        fileUpload(pet.img, pet.nome, (error, newPath) => {
+            if (error){
+                res.status(400).json({error})
             } else {
-                res.status(200).json(pet)
-            }
+                const newPet = { nome: pet.nome, img: newPath}
+
+                connection.query(query, newPet, error => {
+                    if(error) {
+                        console.log(error)
+                        res.status(400).json(error)
+                    } else {
+                        res.status(200).json(newPet)
+                    }
+                })
+            } 
         })
+        
     }
 }
 
