@@ -4,28 +4,46 @@ const axios = require('axios')
 const repository = require('../repositories/atendimento')
 
 class Atendimento {
-    add(atendimento){
-        const createdDate = moment().format('YYYY-MM-DD HH:MM:SS')
-        const date = moment(atendimento.date, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS')
 
-        const isValidDate = moment(date).isSameOrAfter(createdDate)
-        const isValidClient = atendimento.client.length >= 5
+    constructor() {
+        this.isValidDate = (date, createdDate) => moment(date).isSameOrAfter(createdDate)
+        this.isValidClient = (tamanho) => tamanho >= 5
 
-        const validations = [
+        this.validate = params => this.validate.filter(data => {
+            const { name } = data
+            const param = params[name]
+
+            return !data.valid(param)
+        })
+
+        this.validations = [
             {
                 name: 'date',
-                valid : isValidDate,
+                valid : this.isValidDate,
                 message: 'Date needs to be bigger than actual date'
             },
             {
                 name: 'client',
-                valid : isValidClient,
+                valid : this.isValidClient,
                 message: 'Client needs to be bigger than 5 chars'
             }
         ]
 
+        
+        
+    }
+
+    add(atendimento){
+        const createdDate = moment().format('YYYY-MM-DD HH:MM:SS')
+        const date = moment(atendimento.date, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS')
+
+        const params =  {
+            date: { date, createdDate },
+            client: { tamanho: atendimento.client.lenght }
+        }
+
         const errors = validations.filter(data => !data.valid)
-        const hasErrors = errors.length
+        const hasErrors = this.validate(params)
 
         if(hasErrors){
             return new Promise((resolve, reject) => reject(errors))
