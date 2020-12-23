@@ -1,7 +1,7 @@
 const connection = require('../infra/database/connection')
 const moment = require('moment')
 const axios = require('axios')
-const repository = require('../repositories/atendimento')
+const repository = require('../repositories/atendimentos')
 
 class Atendimento {
 
@@ -59,16 +59,8 @@ class Atendimento {
         }
     }
 
-    list(res){
-        const sql = 'SELECT * FROM atendimentos'
-
-        connection.query(sql , (error, results) => {
-            if (error){
-                res.status(400).json(error)
-            } else {
-                res.status(200).json(results)
-            }
-        })
+    list(){
+        return repository.list()
     }
 
     getById(id, res){

@@ -2,8 +2,9 @@ const Atendimento = require('../models/atendimentos')
 
 module.exports = app => {
     app.get('/atendimentos', (req, res) => {
-        Atendimento.list(res)
-
+        Atendimento.list()
+            .then(results => res.json(results))
+            .catch(errors => res.status(400).json(errors))
     })
 
     app.get('/atendimentos/:id' , (req, res) => {
@@ -17,8 +18,7 @@ module.exports = app => {
 
         Atendimento.add(atendimento)
             .then(addedAtendimento => 
-                res.status(201).json(addedAtendimento)
-            )
+                res.status(201).json(addedAtendimento))
             .catch(errors => res.status(400).json(errors))
     })
 
