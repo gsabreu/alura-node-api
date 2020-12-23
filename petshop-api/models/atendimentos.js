@@ -79,7 +79,7 @@ class Atendimento {
         })
     }
 
-    update(id, data, res){
+    update(id, data){
 
         if(data.date){
             data.date = moment(data.date, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS')
@@ -88,16 +88,8 @@ class Atendimento {
         return repository.update(id, data)
     }
 
-    delete(id, res){
-        const sql = `DELETE FROM atendimentos WHERE id=?`
-
-        connection.query(sql, id, (error, results) => {
-            if (error){
-                res.status(400).json(error)
-            } else {
-                res.status(200).json({id})
-            }
-        })
+    delete(id){
+        return repository.delete(id);
     }
 }
 

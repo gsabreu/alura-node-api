@@ -21,6 +21,12 @@ class Atendimento {
         return query(sql, [data, id])
     }
 
+    delete(id){
+        const sql = `DELETE FROM atendimentos WHERE id=?`
+        return query(sql, id)
+    }
+    
+
 }
 
 module.exports = new Atendimento()
