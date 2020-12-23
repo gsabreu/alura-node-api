@@ -2,7 +2,7 @@
     "mysql": {
         "database": "petshop-fornecedores",
         "user": "root",
-        "password" : "123456",
+        "password" : "67351239",
         "host": "127.0.0.1" 
     },
     "api": {
