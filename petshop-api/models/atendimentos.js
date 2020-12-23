@@ -63,19 +63,18 @@ class Atendimento {
         return repository.list()
     }
 
-    getById(id, res){
-        const sql = `SELECT * FROM atendimentos WHERE id = ${id}`
-
-        connection.query(sql , async (error, results) => {
-            const atendimento = results[0]
-            const cpf = atendimento.client
-
-            if (error){
-                res.status(400).json(error)
-            } else {
+    getById(id){
+        return repository.getById(id, async (error, results) => {
+            if(error){
+                return error
+            }
+            else {
+                const atendimento = results[0]
+                const cpf = atendimento.client
+    
                 const {data} = await axios.get(`http://localhost:8082/${cpf}`)
                 atendimento.client = data
-                res.status(200).json(atendimento)
+                return atendimento 
             }
         })
     }
@@ -85,15 +84,8 @@ class Atendimento {
         if(data.date){
             data.date = moment(data.date, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS')
         }
-        const sql = 'UPDATE atendimentos SET ? WHERE id=?'
 
-        connection.query(sql, [data, id], (error, results) => {
-            if(error){
-                res.status(400).json(error)
-            } else {
-                res.status(200).json({...data,id})
-            }
-        })
+        return repository.update(id, data)
     }
 
     delete(id, res){

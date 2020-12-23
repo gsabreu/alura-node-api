@@ -9,7 +9,9 @@ module.exports = app => {
 
     app.get('/atendimentos/:id' , (req, res) => {
         const id = parseInt(req.params.id)
-        Atendimento.getById(id, res)
+        Atendimento.getById(id)
+        .then(results => res.json(results))
+        .catch(errors => res.status(400).json(errors))
 
     })
 
@@ -26,7 +28,9 @@ module.exports = app => {
         const id = parseInt(req.params.id)
         const values = req.body
 
-        Atendimento.update(id, values, res)
+        Atendimento.update(id, values)
+            .then(atendimento => res.status(200).json({ ...values, id }))
+            .catch(errors => res.status(400).json(errors))
     })
 
     app.delete('/atendimentos/:id', (req, res) => {
