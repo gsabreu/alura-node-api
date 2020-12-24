@@ -19,4 +19,26 @@ router.post('/', async (req, res) => {
     )
 })
 
+router.get('/:id', async (req, res) => {
+    const id = req.params.id
+    const fornecedor = new Fornecedor({ id:id })
+    
+    const result = await ModelTable.findOne({
+        where: {
+            id: id
+        }
+    })
+
+    if(!result) {
+        res.send(
+            JSON.stringify({ mensagem: 'Fornecodr não encontrado'})
+        )
+    }
+
+    res.send(
+        JSON.stringify(result)
+    )
+    
+})
+
 module.exports = router
