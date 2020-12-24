@@ -1,9 +1,9 @@
 const router = require('express').Router()
-const ModelTable = require('../../database/ModelFornecedorTable')
 const Fornecedor = require('./Fornecedor')
+const TableFornecedor = require('./FornecedorTable')
 
 router.get('/', async (req, res) => {
-    const result = await  ModelTable.findAll()
+    const result = await  TableFornecedor.list()
     res.send(
         JSON.stringify(result)
     )  
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     const dataRequest = req.body
     const fornecedor = new Fornecedor(dataRequest)
-    await fornecedor.create()
+    await TableFornecedor.create()
 
     res.send(
         JSON.stringify(fornecedor)
@@ -20,25 +20,36 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-    const id = req.params.id
-    const fornecedor = new Fornecedor({ id:id })
-    
-    const result = await ModelTable.findOne({
-        where: {
-            id: id
-        }
-    })
+    try {
+        const id = req.params.id
+        const fornecedor = new Fornecedor({ id: id })
 
-    if(!result) {
+        await fornecedor.getById()
+        resposta.send(
+            JSON.stringify(fornecedor)
+        )
+    } catch (error) {
         res.send(
-            JSON.stringify({ mensagem: 'Fornecodr não encontrado'})
+            JSON.stringify({ mensagem: error.message})
         )
     }
+})
 
-    res.send(
-        JSON.stringify(result)
-    )
-    
+router.put('/:id', async (req, res) => {
+    try{
+        const id = req.params.id
+        const body = req.body
+        const data = Object.assign({}, body, { id: id})
+
+        const fornecedor = new Fornecedor(data)
+
+        await fornecedor.update()
+        res.end()
+    } catch(error) {
+        res.send(JSON.stringify({
+            mensagem: error.message
+        }))
+    }
 })
 
 module.exports = router

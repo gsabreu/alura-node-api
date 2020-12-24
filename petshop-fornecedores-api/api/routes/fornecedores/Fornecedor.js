@@ -1,4 +1,4 @@
-const FornecedorTable = require('../../database/ModelFornecedorTable')
+const TableFornecedor = require('./FornecedorTable')
 
 class Fornecedor {
 
@@ -13,7 +13,7 @@ class Fornecedor {
     }
 
     async create(){
-        const result = await FornecedorTable.create({
+        const result = await TableFornecedor.create({
             company: this.company,
             email: this.email,
             category: this.category
@@ -26,7 +26,7 @@ class Fornecedor {
     }
 
     async getById(){
-        const result = await FornecedorTable.getById(this.id)
+        const result = await TableFornecedor.getById(this.id)
         
         this.company = result.company
         this.email = result.email
@@ -36,6 +36,25 @@ class Fornecedor {
         this.version = result.version
     }
 
+    async update(){
+        await TableFornecedor.getById(this.id)
+        const datas = ['company', 'email', 'category']
+
+        const dataToUpdate = { }
+
+        datas.forEach(dataValue => {
+            const value = this[dataValue]
+            if(typeof value === 'string' && value.length > 0){
+                dataToUpdate[dataValue] = value
+            }
+        })
+
+        if (Object.keys(dataToUpdate).length === 0){
+            throw new Error('Não foram fornecidos dados para atualizar!')
+        }
+
+        await TableFornecedor.update(this.id, dataToUpdate)
+    }
 }
 
 module.exports = Fornecedor
