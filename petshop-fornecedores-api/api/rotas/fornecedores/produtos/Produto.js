@@ -38,6 +38,16 @@ class Produto {
             throw new Error('O campo preco está inválido')
         }
     }
+
+    async carregar() {
+        const produto = await Tabela.pegarPorId(this.id, this.fornecedor)
+        this.titulo = produto.titulo
+        this.preco = produto.preco
+        this.estoque = produto.estoque
+        this.dataCriacao = produto.dataCriacao
+        this.dataAtualizacao = produto.dataAtualizacao
+        this.versao = produto.versao
+    }
 }
 
 module.exports = Produto
