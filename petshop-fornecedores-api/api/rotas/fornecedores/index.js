@@ -6,7 +6,9 @@ const SerializadorFornecedor = require('../../Serializador').SerializadorFornece
 roteador.get('/', async (requisicao, resposta) => {
     const resultados = await TabelaFornecedor.listar()
     resposta.status(200)
-    const serializador = new SerializadorFornecedor(resposta.getHeader('Content-Type'))
+    const serializador = new SerializadorFornecedor(
+        resposta.getHeader('Content-Type')
+    )
     resposta.send(
         serializador.serializar(resultados)
     )
@@ -18,15 +20,15 @@ roteador.post('/', async (requisicao, resposta, proximo) => {
         const fornecedor = new Fornecedor(dadosRecebidos)
         await fornecedor.criar()
         resposta.status(201)
-
-        const serializador = new SerializadorFornecedor(resposta.getHeader('Content-Type'))
+        const serializador = new SerializadorFornecedor(
+            resposta.getHeader('Content-Type')
+        )
         resposta.send(
             serializador.serializar(fornecedor)
         )
     } catch (erro) {
         proximo(erro)
     }
-    
 })
 
 roteador.get('/:idFornecedor', async (requisicao, resposta, proximo) => {
@@ -35,8 +37,10 @@ roteador.get('/:idFornecedor', async (requisicao, resposta, proximo) => {
         const fornecedor = new Fornecedor({ id: id })
         await fornecedor.carregar()
         resposta.status(200)
-
-        const serializador = new SerializadorFornecedor(resposta.getHeader('Content-Type'))
+        const serializador = new SerializadorFornecedor(
+            resposta.getHeader('Content-Type'),
+            ['email', 'dataCriacao', 'dataAtualizacao', 'versao']
+        )
         resposta.send(
             serializador.serializar(fornecedor)
         )
@@ -62,16 +66,14 @@ roteador.put('/:idFornecedor', async (requisicao, resposta, proximo) => {
 roteador.delete('/:idFornecedor', async (requisicao, resposta, proximo) => {
     try {
         const id = requisicao.params.idFornecedor
-        const fornecedor = new Fornecedor({ id: id})
+        const fornecedor = new Fornecedor({ id: id })
         await fornecedor.carregar()
         await fornecedor.remover()
         resposta.status(204)
         resposta.end()
-    
-    } catch (error) {
-        proximo(error)
+    } catch (erro) {
+        proximo(erro)
     }
-    
 })
 
 module.exports = roteador

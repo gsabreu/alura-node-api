@@ -62,17 +62,16 @@ class Fornecedor {
     }
 
     validar () {
-        const campos = ['empresa' , 'email', 'categoria']
+        const campos = ['empresa', 'email', 'categoria']
 
         campos.forEach(campo => {
             const valor = this[campo]
 
-            if(typeof valor !== 'string' || valor.length === 0) {
+            if (typeof valor !== 'string' || valor.length === 0) {
                 throw new CampoInvalido(campo)
             }
         })
     }
-
 }
 
 module.exports = Fornecedor
