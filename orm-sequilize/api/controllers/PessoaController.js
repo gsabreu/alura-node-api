@@ -33,6 +33,28 @@ class PessoaController {
             return res.status(500).json(error.message)
         }
     }
+
+    static async updatePerson(req, res) {
+        const { id } = req.params
+        const requestPerson = req.body
+        try {
+            await database.Pessoas.update(requestPerson, { where: { id: Number(id) } })
+            const personUpdated = await database.Pessoas.findOne({ where: { id: Number(id) }})
+            return res.status(200).json(personUpdated)
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+
+    static async deletePerson(req, res){
+        const { id } = req.params
+        try {
+            await database.Pessoas.destroy({ where: { id: Number(id) } })
+            return res.status(200).json({ mensage: `id ${id} deletado`})
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
      
 }
 
