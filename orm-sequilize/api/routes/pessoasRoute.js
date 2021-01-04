@@ -13,4 +13,6 @@ router.put('/pessoas/:id', PessoaController.updatePerson)
 
 router.delete('/pessoas/:id', PessoaController.deletePerson)
 
+router.get('/pessoas/:estudanteId/matricula/:matriculaId', PessoaController.getMatriculaById)
+
 module.exports = router
