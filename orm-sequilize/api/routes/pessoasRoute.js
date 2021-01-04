@@ -9,6 +9,10 @@ router.get('/pessoas/todos', PessoaController.getAll)
 
 router.get('/pessoas/:id', PessoaController.getById)
 
+router.get('/pessoas/:estudanteId/matricula/:matriculaId', PessoaController.getMatriculaById)
+
+router.get('/pessoas/:estudanteId/matricula/', PessoaController.getMatriculas)
+
 router.post('/pessoas', PessoaController.createPerson)
 
 router.post('/pessoas/:id/restaura', PessoaController.restauraPessoa)
@@ -17,7 +21,7 @@ router.put('/pessoas/:id', PessoaController.updatePerson)
 
 router.delete('/pessoas/:id', PessoaController.deletePerson)
 
-router.get('/pessoas/:estudanteId/matricula/:matriculaId', PessoaController.getMatriculaById)
+
 
 router.post('/pessoas/:estudanteId/matricula', PessoaController.createMatricula)
 

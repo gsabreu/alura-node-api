@@ -1,4 +1,5 @@
 const database = require('../models')
+const pessoas = require('../models/pessoas')
 
 class PessoaController {
     static async getAllActives(req, res) {
@@ -123,6 +124,17 @@ class PessoaController {
         try {
             await database.Matriculas.destroy({ where: { id: Number(matriculaId) } })
             return res.status(200).json({ mensage: `id ${matriculaId} deletado`})
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+
+    static async getMatriculas(req, res){
+        const { estudanteId } = req.params
+        try {
+            const person = await database.Pessoas.findOne({ where: {id: Number(estudanteId)} })
+            const matriculas = await person.getAulasMatriculadas()
+            return res.status(200).json(matriculas)
         } catch (error) {
             return res.status(500).json(error.message)
         }
