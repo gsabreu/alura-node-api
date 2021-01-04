@@ -70,6 +70,17 @@ class PessoaController {
             return res.status(500).json(error.message)
         }
     }
+
+    static async createMatricula(req, res){
+        const { estudanteId } = req.params
+        const matriculaRequest = { ...req.body, estudante_id: Number(estudanteId) } 
+        try {
+            const createdMatricula = await database.Matriculas.create(matriculaRequest)
+            return res.status(200).json(createdMatricula)
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
      
 }
 

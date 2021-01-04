@@ -15,4 +15,6 @@ router.delete('/pessoas/:id', PessoaController.deletePerson)
 
 router.get('/pessoas/:estudanteId/matricula/:matriculaId', PessoaController.getMatriculaById)
 
+router.post('/pessoas/:estudanteId/matricula', PessoaController.createMatricula)
+
 module.exports = router
