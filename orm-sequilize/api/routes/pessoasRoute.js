@@ -9,6 +9,8 @@ router.get('/pessoas/:id', PessoaController.getById)
 
 router.post('/pessoas', PessoaController.createPerson)
 
+router.post('/pessoas/:id/restaura', PessoaController.restauraPessoa)
+
 router.put('/pessoas/:id', PessoaController.updatePerson)
 
 router.delete('/pessoas/:id', PessoaController.deletePerson)
