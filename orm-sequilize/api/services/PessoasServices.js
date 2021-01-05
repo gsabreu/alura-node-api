@@ -4,6 +4,7 @@ const database = require('../models')
 class PessoasServices extends Services {
     constructor(){
         super('Pessoas')
+        this.matriculas = new Services('Matriculas')
     }
     
     async getActiveRegisters(where = {}){
@@ -16,6 +17,18 @@ class PessoasServices extends Services {
         return database[this.modelName]
             .scope('all')
             .findAll({ where: { ...where } })
+    }
+
+    async cancelPersonAndMatricula(estudanteId){
+        database.sequelize.transaction(async transaction => {
+            await super.updateRegister({ ativo: false },
+                estudanteId,
+                {transaction: transaction})
+            
+            await this.matriculas.updateRegisters( { status: 'cancelado'},
+                {estudante_id: estudanteId},
+                {transaction: transaction})        
+        })
     }
 }
 

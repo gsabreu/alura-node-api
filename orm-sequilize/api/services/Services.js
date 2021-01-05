@@ -16,11 +16,20 @@ class Service {
         
     }
     
-    async updateRegister(data, id){
+    async updateRegister(data, id, transaction = {}){
+        return database[this.modelName]
+            .upddate(data, { where: { id: id } }, transaction)
 
     }
+
+    async updateRegisters(data, where, transaction = {}){
+        return database[this.modelName]
+            .upddate(data, { where: { ...where } }, transaction)
+
+    }
+
     async deleteRegister(data){
-        
+
     }
 }
 
