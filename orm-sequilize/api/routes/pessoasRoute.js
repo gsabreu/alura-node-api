@@ -23,9 +23,9 @@ router.post('/pessoas/:id/restaura', PessoaController.restauraPessoa)
 
 router.put('/pessoas/:id', PessoaController.updatePerson)
 
+router.post('/pessoas/:estudanteId/cancela', PessoaController.cancelPerson)
+
 router.delete('/pessoas/:id', PessoaController.deletePerson)
-
-
 
 router.post('/pessoas/:estudanteId/matricula', PessoaController.createMatricula)
 
