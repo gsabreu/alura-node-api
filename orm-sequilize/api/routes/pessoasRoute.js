@@ -15,6 +15,8 @@ router.get('/pessoas/:estudanteId/matricula/', PessoaController.getMatriculas)
 
 router.get('/pessoas/matricula/:turmaId/confirmadas', PessoaController.getMatriculasPorTurma)
 
+router.get('/pessoas/matricula/lotada', PessoaController.getFullTurmas)
+
 router.post('/pessoas', PessoaController.createPerson)
 
 router.post('/pessoas/:id/restaura', PessoaController.restauraPessoa)
