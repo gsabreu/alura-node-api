@@ -3,9 +3,9 @@ const PessoaController = require('../controllers/PessoaController')
 
 const router = Router()
 
-router.get('/pessoas', PessoaController.getAllActives)
+router.get('/pessoas', PessoaController.getAll)
 
-router.get('/pessoas/todos', PessoaController.getAll)
+router.get('/pessoas/ativas', PessoaController.getAllActives)
 
 router.get('/pessoas/:id', PessoaController.getById)
 
