@@ -139,6 +139,24 @@ class PessoaController {
             return res.status(500).json(error.message)
         }
     }
+
+    static async getMatriculasPorTurma(req, res){
+        const { turmaId } = req.params
+        try {
+            const matriculas = await database.Matriculas
+                .findAndCountAll({
+                    where: { 
+                        turma_id : Number(turmaId),
+                        status: 'confirmado'
+                    },
+                    limit:10,
+                    order: [['estudante_id', 'ASC']]
+                })
+            return res.status(200).json(matriculas)
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
      
 }
 
