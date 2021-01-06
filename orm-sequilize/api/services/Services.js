@@ -8,28 +8,33 @@ class Service {
     async getAllRegisters(){
         return database[this.modelName].findAll()
     }
+
     async getOneRegister(id){
-        //
+        return database[this.modelName].findOne({
+            where: {
+                id: id
+             }
+        })
     }
 
     async createRegister(data){
-        
+        return database[this.modelName].create(data)
     }
     
     async updateRegister(data, id, transaction = {}){
         return database[this.modelName]
-            .upddate(data, { where: { id: id } }, transaction)
+            .update(data, { where: { id: id } }, transaction)
 
     }
 
     async updateRegisters(data, where, transaction = {}){
         return database[this.modelName]
-            .upddate(data, { where: { ...where } }, transaction)
+            .update(data, { where: { ...where } }, transaction)
 
     }
 
-    async deleteRegister(data){
-
+    async deleteRegister(id){
+        database[this.modelName].destroy({ where: { id: id } })
     }
 }
 

@@ -1,5 +1,6 @@
 // const database = require('../models')
 // const Sequelize = require('sequelize')
+const pessoas = require('../models/pessoas')
 const { PessoasServices } = require('../services')
 const pessoasServices = new PessoasServices()
 
@@ -25,11 +26,7 @@ class PessoaController {
     static async getById(req, res) {
         const { id } = req.params
         try {
-            const person = await database.Pessoas.findOne({ 
-                where: {
-                    id: Number(id)
-                 }
-            })
+            const person = await pessoasServices.getOneRegister(Number(id))
             return res.status(200).json(person)
         } catch (error) {
             return res.status(500).json(error.message)
@@ -39,7 +36,7 @@ class PessoaController {
     static async createPerson(req, res){
         const personRequest = req.body
         try {
-            const createdPerson = await database.Pessoas.create(personRequest)
+            const createdPerson = await pessoasServices.createRegister(personRequest)
             return res.status(200).json(createdPerson)
         } catch (error) {
             return res.status(500).json(error.message)
@@ -50,8 +47,8 @@ class PessoaController {
         const { id } = req.params
         const requestPerson = req.body
         try {
-            await database.Pessoas.update(requestPerson, { where: { id: Number(id) } })
-            const personUpdated = await database.Pessoas.findOne({ where: { id: Number(id) }})
+            await pessoasServices.updateRegister(requestPerson, id)
+            const personUpdated = await pessoasServices.getOneRegister(Number(id))
             return res.status(200).json(personUpdated)
         } catch (error) {
             return res.status(500).json(error.message)
@@ -61,7 +58,7 @@ class PessoaController {
     static async deletePerson(req, res){
         const { id } = req.params
         try {
-            await database.Pessoas.destroy({ where: { id: Number(id) } })
+            await pessoasServices.deleteRegister(Number(id))
             return res.status(200).json({ mensage: `id ${id} deletado`})
         } catch (error) {
             return res.status(500).json(error.message)
