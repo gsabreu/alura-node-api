@@ -30,6 +30,12 @@ class PessoasServices extends Services {
                 {transaction: transaction})        
         })
     }
+
+    async getMatriculaByStudent(where = {}){
+        const matriculas = await database[this.modelName]
+            .findOne({ where: { ...where } })
+            return matriculas.getAulasMatriculadas()
+    }
 }
 
 module.exports = PessoasServices

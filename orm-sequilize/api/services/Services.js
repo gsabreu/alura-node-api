@@ -5,16 +5,12 @@ class Service {
         this.modelName = modelName
     }
 
-    async getAllRegisters(){
-        return database[this.modelName].findAll()
+    async getAllRegisters( where = {}){
+        return database[this.modelName].findAll({ where: { ...where} })
     }
 
-    async getOneRegister(id){
-        return database[this.modelName].findOne({
-            where: {
-                id: id
-             }
-        })
+    async getOneRegister(where = {}){
+        return database[this.modelName].findOne({ where: { ...where } })
     }
 
     async createRegister(data){
@@ -35,6 +31,20 @@ class Service {
 
     async deleteRegister(id){
         database[this.modelName].destroy({ where: { id: id } })
+    }
+
+    async restoreRegister(id) {
+        database[this.modelName].restore({ where: { id: id } })
+    }
+
+    async findDeletedRegister(id) {
+        return database[this.modelName]
+            .findOne({ paranoid: false, where : { id: id } })
+    }
+
+    async findAndCountRegisters(where = {}, aggregations) {
+        return database[this.modelName]
+            .findAndCountAll({ where: { ...where } , ...aggregations})
     }
 }
 
